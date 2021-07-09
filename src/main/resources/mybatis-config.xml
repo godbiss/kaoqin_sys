@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--  开启驼峰命名法  -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+<!--    <typeHandlers>-->
+<!--        &lt;!&ndash;    使用自定义类型处理器处理对象    &ndash;&gt;-->
+<!--        <typeHandler handler="com.zhu.ssm.pojo.MyEnumEmpTypeHandler" javaType="com.zhu.ssm.pojo.Employee"/>-->
+<!--    </typeHandlers>-->
+<!--    <plugins>-->
+<!--        <plugin interceptor="com.zhu.ssm.plugin.MyPlugin"></plugin>-->
+<!--        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>-->
+<!--    </plugins>-->
+    <!--    <typeAliases>-->
+    <!--        <package name="com.zhu.mybatis.entities"/>-->
+    <!--    </typeAliases>-->
+
+    <!--  比较重要及复杂的Dao接口使用sql映射文件
+            不重要、简单Dao接口为了开发快速可以使用注解
+      -->
+</configuration>
