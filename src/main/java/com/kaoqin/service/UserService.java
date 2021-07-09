@@ -2,10 +2,17 @@ package com.kaoqin.service;
 
 import com.kaoqin.dao.UserDao;
 import com.kaoqin.pojo.User;
+import com.kaoqin.pojo.UserExample;
 import com.kaoqin.utils.MD5Utils;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@Log4j2
 @Service
 public class UserService {
 
@@ -16,12 +23,22 @@ public class UserService {
         return userDao.selectByPrimaryKey(id);
     }
 
-    public User getUserByEmail(String email){return userDao.selectByEmail(email); }
+    public User getUserByCodenum(String codenum){
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andCodenumEqualTo(codenum);
+        User user = userDao.selectByExample(userExample).get(0);
+        return user;
+    }
 
     public User check(User user){
-        User userByEmail = userDao.selectByEmail(user.getEmail());
-        if(MD5Utils.valid(user.getPassword(), userByEmail.getPassword())){
-            return userByEmail;
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andCodenumEqualTo(user.getCodenum());
+        User userByExample = userDao.selectByExample(userExample).get(0);
+        log.info(userByExample);
+        if(MD5Utils.valid(user.getPassword(), userByExample.getPassword())){
+            return userByExample;
         }else {
             return null;
         }
@@ -29,7 +46,12 @@ public class UserService {
     }
 
     public Integer addUser(User user){
+        user.setCreatetime(new Date());
         user.setPassword(MD5Utils.MD5(user.getPassword()));
         return userDao.insertSelective(user);
+    }
+
+    public Integer updateUser(User user){
+        return userDao.updateByPrimaryKey(user);
     }
 }
