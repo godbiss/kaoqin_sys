@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaoqin.dao.QingjiadanDao">
+  <resultMap id="BaseResultMap" type="com.kaoqin.pojo.Qingjiadan">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="banjinum" jdbcType="VARCHAR" property="banjinum" />
+    <result column="codenum" jdbcType="VARCHAR" property="codenum" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="qjtime1" jdbcType="VARCHAR" property="qjtime1" />
+    <result column="qjtime2" jdbcType="VARCHAR" property="qjtime2" />
+    <result column="shenhe" jdbcType="VARCHAR" property="shenhe" />
+    <result column="shenhecontent" jdbcType="VARCHAR" property="shenhecontent" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, banjinum, codenum, createtime, qjtime1, qjtime2, shenhe, shenhecontent, username
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_qingjiadan
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_qingjiadan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kaoqin.pojo.Qingjiadan" useGeneratedKeys="true">
+    insert into t_qingjiadan (banjinum, codenum, createtime, 
+      qjtime1, qjtime2, shenhe, 
+      shenhecontent, username)
+    values (#{banjinum,jdbcType=VARCHAR}, #{codenum,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{qjtime1,jdbcType=VARCHAR}, #{qjtime2,jdbcType=VARCHAR}, #{shenhe,jdbcType=VARCHAR}, 
+      #{shenhecontent,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.kaoqin.pojo.Qingjiadan" useGeneratedKeys="true">
+    insert into t_qingjiadan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="banjinum != null">
+        banjinum,
+      </if>
+      <if test="codenum != null">
+        codenum,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="qjtime1 != null">
+        qjtime1,
+      </if>
+      <if test="qjtime2 != null">
+        qjtime2,
+      </if>
+      <if test="shenhe != null">
+        shenhe,
+      </if>
+      <if test="shenhecontent != null">
+        shenhecontent,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="banjinum != null">
+        #{banjinum,jdbcType=VARCHAR},
+      </if>
+      <if test="codenum != null">
+        #{codenum,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qjtime1 != null">
+        #{qjtime1,jdbcType=VARCHAR},
+      </if>
+      <if test="qjtime2 != null">
+        #{qjtime2,jdbcType=VARCHAR},
+      </if>
+      <if test="shenhe != null">
+        #{shenhe,jdbcType=VARCHAR},
+      </if>
+      <if test="shenhecontent != null">
+        #{shenhecontent,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kaoqin.pojo.Qingjiadan">
+    update t_qingjiadan
+    <set>
+      <if test="banjinum != null">
+        banjinum = #{banjinum,jdbcType=VARCHAR},
+      </if>
+      <if test="codenum != null">
+        codenum = #{codenum,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qjtime1 != null">
+        qjtime1 = #{qjtime1,jdbcType=VARCHAR},
+      </if>
+      <if test="qjtime2 != null">
+        qjtime2 = #{qjtime2,jdbcType=VARCHAR},
+      </if>
+      <if test="shenhe != null">
+        shenhe = #{shenhe,jdbcType=VARCHAR},
+      </if>
+      <if test="shenhecontent != null">
+        shenhecontent = #{shenhecontent,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kaoqin.pojo.Qingjiadan">
+    update t_qingjiadan
+    set banjinum = #{banjinum,jdbcType=VARCHAR},
+      codenum = #{codenum,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      qjtime1 = #{qjtime1,jdbcType=VARCHAR},
+      qjtime2 = #{qjtime2,jdbcType=VARCHAR},
+      shenhe = #{shenhe,jdbcType=VARCHAR},
+      shenhecontent = #{shenhecontent,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaoqin.dao.KaoqinlogDao">
+  <resultMap id="BaseResultMap" type="com.kaoqin.pojo.Kaoqinlog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="banjinum" jdbcType="VARCHAR" property="banjinum" />
+    <result column="codenum" jdbcType="VARCHAR" property="codenum" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="iskuangke" jdbcType="INTEGER" property="iskuangke" />
+    <result column="kechengname" jdbcType="VARCHAR" property="kechengname" />
+    <result column="kuangkenum" jdbcType="INTEGER" property="kuangkenum" />
+    <result column="riqi" jdbcType="VARCHAR" property="riqi" />
+    <result column="teacher" jdbcType="VARCHAR" property="teacher" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, banjinum, codenum, createtime, iskuangke, kechengname, kuangkenum, riqi, teacher
+  </sql>
+  <select id="selectByExample" parameterType="com.kaoqin.pojo.KaoqinlogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_kaoqinlog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_kaoqinlog
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_kaoqinlog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kaoqin.pojo.KaoqinlogExample">
+    delete from t_kaoqinlog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kaoqin.pojo.Kaoqinlog" useGeneratedKeys="true">
+    insert into t_kaoqinlog (banjinum, codenum, createtime, 
+      iskuangke, kechengname, kuangkenum, 
+      riqi, teacher)
+    values (#{banjinum,jdbcType=VARCHAR}, #{codenum,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{iskuangke,jdbcType=INTEGER}, #{kechengname,jdbcType=VARCHAR}, #{kuangkenum,jdbcType=INTEGER}, 
+      #{riqi,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.kaoqin.pojo.Kaoqinlog" useGeneratedKeys="true">
+    insert into t_kaoqinlog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="banjinum != null">
+        banjinum,
+      </if>
+      <if test="codenum != null">
+        codenum,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="iskuangke != null">
+        iskuangke,
+      </if>
+      <if test="kechengname != null">
+        kechengname,
+      </if>
+      <if test="kuangkenum != null">
+        kuangkenum,
+      </if>
+      <if test="riqi != null">
+        riqi,
+      </if>
+      <if test="teacher != null">
+        teacher,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="banjinum != null">
+        #{banjinum,jdbcType=VARCHAR},
+      </if>
+      <if test="codenum != null">
+        #{codenum,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iskuangke != null">
+        #{iskuangke,jdbcType=INTEGER},
+      </if>
+      <if test="kechengname != null">
+        #{kechengname,jdbcType=VARCHAR},
+      </if>
+      <if test="kuangkenum != null">
+        #{kuangkenum,jdbcType=INTEGER},
+      </if>
+      <if test="riqi != null">
+        #{riqi,jdbcType=VARCHAR},
+      </if>
+      <if test="teacher != null">
+        #{teacher,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kaoqin.pojo.KaoqinlogExample" resultType="java.lang.Long">
+    select count(*) from t_kaoqinlog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_kaoqinlog
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.banjinum != null">
+        banjinum = #{record.banjinum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.codenum != null">
+        codenum = #{record.codenum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.iskuangke != null">
+        iskuangke = #{record.iskuangke,jdbcType=INTEGER},
+      </if>
+      <if test="record.kechengname != null">
+        kechengname = #{record.kechengname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kuangkenum != null">
+        kuangkenum = #{record.kuangkenum,jdbcType=INTEGER},
+      </if>
+      <if test="record.riqi != null">
+        riqi = #{record.riqi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacher != null">
+        teacher = #{record.teacher,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_kaoqinlog
+    set id = #{record.id,jdbcType=INTEGER},
+      banjinum = #{record.banjinum,jdbcType=VARCHAR},
+      codenum = #{record.codenum,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      iskuangke = #{record.iskuangke,jdbcType=INTEGER},
+      kechengname = #{record.kechengname,jdbcType=VARCHAR},
+      kuangkenum = #{record.kuangkenum,jdbcType=INTEGER},
+      riqi = #{record.riqi,jdbcType=VARCHAR},
+      teacher = #{record.teacher,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kaoqin.pojo.Kaoqinlog">
+    update t_kaoqinlog
+    <set>
+      <if test="banjinum != null">
+        banjinum = #{banjinum,jdbcType=VARCHAR},
+      </if>
+      <if test="codenum != null">
+        codenum = #{codenum,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iskuangke != null">
+        iskuangke = #{iskuangke,jdbcType=INTEGER},
+      </if>
+      <if test="kechengname != null">
+        kechengname = #{kechengname,jdbcType=VARCHAR},
+      </if>
+      <if test="kuangkenum != null">
+        kuangkenum = #{kuangkenum,jdbcType=INTEGER},
+      </if>
+      <if test="riqi != null">
+        riqi = #{riqi,jdbcType=VARCHAR},
+      </if>
+      <if test="teacher != null">
+        teacher = #{teacher,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kaoqin.pojo.Kaoqinlog">
+    update t_kaoqinlog
+    set banjinum = #{banjinum,jdbcType=VARCHAR},
+      codenum = #{codenum,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      iskuangke = #{iskuangke,jdbcType=INTEGER},
+      kechengname = #{kechengname,jdbcType=VARCHAR},
+      kuangkenum = #{kuangkenum,jdbcType=INTEGER},
+      riqi = #{riqi,jdbcType=VARCHAR},
+      teacher = #{teacher,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
