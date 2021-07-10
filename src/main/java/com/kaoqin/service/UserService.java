@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Log4j2
 @Service
@@ -29,6 +30,15 @@ public class UserService {
         criteria.andCodenumEqualTo(codenum);
         User user = userDao.selectByExample(userExample).get(0);
         return user;
+    }
+
+    public List<User> getUserByBanjinum(String banjinum){
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andBanjinumEqualTo(banjinum);
+
+        List<User> users = userDao.selectByExample(userExample);
+        return users;
     }
 
     public User check(User user){
