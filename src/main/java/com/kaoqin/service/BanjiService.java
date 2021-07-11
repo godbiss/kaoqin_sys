@@ -23,4 +23,13 @@ public class BanjiService {
         return banjis;
     }
 
+    public Banji getBanjiBybanjinum(String banjinum){
+        BanjiExample banjiExample = new BanjiExample();
+        BanjiExample.Criteria criteria = banjiExample.createCriteria();
+        criteria.andBanjinumEqualTo(banjinum);
+        Banji banji = banjiDao.selectByExample(banjiExample).get(0);
+
+        return banji;
+    }
+
 }

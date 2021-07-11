@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class KechengController {
     @ResponseBody
     public List<JSONObject> getCourseByTeacher(@PathVariable("teacher") String teacher){
         List<Course> coursebyTeacher = courseService.getCoursebyTeacher(teacher);
-
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<JSONObject> jsonObjectList = new ArrayList<>();
 
         for (Course course :
@@ -50,7 +51,8 @@ public class KechengController {
                     jsonObject.put("course", course);
                     jsonObject.put("banji", kecheng.getBanji());
                     jsonObject.put("kechengname1", kecheng.getKechengname1());
-                    jsonObject.put("shangketime", kecheng.getShangketime());
+                    jsonObject.put("shangketime", simpleDateFormat.format(kecheng.getShangketime()).toString());
+                    jsonObject.put("banjinum", kecheng.getBanjinum());
 
                     jsonObjectList.add(jsonObject);
                 }
@@ -62,8 +64,8 @@ public class KechengController {
                     jsonObject.put("course", course);
                     jsonObject.put("banji", kecheng.getBanji());
                     jsonObject.put("kechengname2", kecheng.getKechengname2());
-                    jsonObject.put("shangketime", kecheng.getShangketime());
-
+                    jsonObject.put("shangketime", simpleDateFormat.format(kecheng.getShangketime()).toString());
+                    jsonObject.put("banjinum", kecheng.getBanjinum());
                     jsonObjectList.add(jsonObject);
                 }
             }
@@ -74,8 +76,8 @@ public class KechengController {
                     jsonObject.put("course", course);
                     jsonObject.put("banji", kecheng.getBanji());
                     jsonObject.put("kechengname3", kecheng.getKechengname3());
-                    jsonObject.put("shangketime", kecheng.getShangketime());
-
+                    jsonObject.put("shangketime", simpleDateFormat.format(kecheng.getShangketime()).toString());
+                    jsonObject.put("banjinum", kecheng.getBanjinum());
                     jsonObjectList.add(jsonObject);
                 }
             }
@@ -86,8 +88,8 @@ public class KechengController {
                     jsonObject.put("course", course);
                     jsonObject.put("banji", kecheng.getBanji());
                     jsonObject.put("kechengname4", kecheng.getKechengname4());
-                    jsonObject.put("shangketime", kecheng.getShangketime());
-
+                    jsonObject.put("shangketime", simpleDateFormat.format(kecheng.getShangketime()).toString());
+                    jsonObject.put("banjinum", kecheng.getBanjinum());
                     jsonObjectList.add(jsonObject);
                 }
             }
@@ -98,8 +100,8 @@ public class KechengController {
                     jsonObject.put("course", course);
                     jsonObject.put("banji", kecheng.getBanji());
                     jsonObject.put("kechengname5", kecheng.getKechengname5());
-                    jsonObject.put("shangketime", kecheng.getShangketime());
-
+                    jsonObject.put("shangketime", simpleDateFormat.format(kecheng.getShangketime()).toString());
+                    jsonObject.put("banjinum", kecheng.getBanjinum());
                     jsonObjectList.add(jsonObject);
                 }
             }
@@ -110,8 +112,8 @@ public class KechengController {
                     jsonObject.put("course", course);
                     jsonObject.put("banji", kecheng.getBanji());
                     jsonObject.put("kechengname6", kecheng.getKechengname6());
-                    jsonObject.put("shangketime", kecheng.getShangketime());
-
+                    jsonObject.put("shangketime", simpleDateFormat.format(kecheng.getShangketime()).toString());
+                    jsonObject.put("banjinum", kecheng.getBanjinum());
                     jsonObjectList.add(jsonObject);
                 }
             }

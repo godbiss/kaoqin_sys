@@ -1,6 +1,5 @@
 package com.kaoqin.handler;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kaoqin.pojo.User;
 import com.kaoqin.service.UserService;
@@ -12,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.TextMessage;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Log4j2
 @Controller
@@ -19,6 +23,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @RequestMapping(value = "/regist", method = RequestMethod.PUT)
     @ResponseBody
@@ -55,6 +60,7 @@ public class UserController {
             json.put("token", token);
             json.put("user", userLogin);
             json.put("success", true);
+
         }else {
             json.put("success", false);
         }
@@ -83,4 +89,5 @@ public class UserController {
             return json;
         }
     }
+
 }
