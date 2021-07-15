@@ -5,12 +5,15 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="banjinum" jdbcType="VARCHAR" property="banjinum" />
     <result column="codenum" jdbcType="VARCHAR" property="codenum" />
+    <result column="courseIndex" jdbcType="INTEGER" property="courseindex" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="iskuangke" jdbcType="INTEGER" property="iskuangke" />
     <result column="kechengname" jdbcType="VARCHAR" property="kechengname" />
     <result column="kuangkenum" jdbcType="INTEGER" property="kuangkenum" />
     <result column="riqi" jdbcType="VARCHAR" property="riqi" />
     <result column="teacher" jdbcType="VARCHAR" property="teacher" />
+    <result column="qiandaotype" jdbcType="INTEGER" property="qiandaotype" />
+    <result column="kechenglock" jdbcType="INTEGER" property="kechenglock" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, banjinum, codenum, createtime, iskuangke, kechengname, kuangkenum, riqi, teacher
+    id, banjinum, codenum, courseIndex, createtime, iskuangke, kechengname, kuangkenum, 
+    riqi, teacher, qiandaotype, kechenglock
   </sql>
   <select id="selectByExample" parameterType="com.kaoqin.pojo.KaoqinlogExample" resultMap="BaseResultMap">
     select
@@ -104,12 +108,14 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kaoqin.pojo.Kaoqinlog" useGeneratedKeys="true">
-    insert into t_kaoqinlog (banjinum, codenum, createtime, 
-      iskuangke, kechengname, kuangkenum, 
-      riqi, teacher)
-    values (#{banjinum,jdbcType=VARCHAR}, #{codenum,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{iskuangke,jdbcType=INTEGER}, #{kechengname,jdbcType=VARCHAR}, #{kuangkenum,jdbcType=INTEGER}, 
-      #{riqi,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR})
+    insert into t_kaoqinlog (banjinum, codenum, courseIndex, 
+      createtime, iskuangke, kechengname, 
+      kuangkenum, riqi, teacher, 
+      qiandaotype, kechenglock)
+    values (#{banjinum,jdbcType=VARCHAR}, #{codenum,jdbcType=VARCHAR}, #{courseindex,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{iskuangke,jdbcType=INTEGER}, #{kechengname,jdbcType=VARCHAR}, 
+      #{kuangkenum,jdbcType=INTEGER}, #{riqi,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR}, 
+      #{qiandaotype,jdbcType=INTEGER}, #{kechenglock,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.kaoqin.pojo.Kaoqinlog" useGeneratedKeys="true">
     insert into t_kaoqinlog
@@ -119,6 +125,9 @@
       </if>
       <if test="codenum != null">
         codenum,
+      </if>
+      <if test="courseindex != null">
+        courseIndex,
       </if>
       <if test="createtime != null">
         createtime,
@@ -138,6 +147,12 @@
       <if test="teacher != null">
         teacher,
       </if>
+      <if test="qiandaotype != null">
+        qiandaotype,
+      </if>
+      <if test="kechenglock != null">
+        kechenglock,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="banjinum != null">
@@ -145,6 +160,9 @@
       </if>
       <if test="codenum != null">
         #{codenum,jdbcType=VARCHAR},
+      </if>
+      <if test="courseindex != null">
+        #{courseindex,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
@@ -163,6 +181,12 @@
       </if>
       <if test="teacher != null">
         #{teacher,jdbcType=VARCHAR},
+      </if>
+      <if test="qiandaotype != null">
+        #{qiandaotype,jdbcType=INTEGER},
+      </if>
+      <if test="kechenglock != null">
+        #{kechenglock,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -184,6 +208,9 @@
       <if test="record.codenum != null">
         codenum = #{record.codenum,jdbcType=VARCHAR},
       </if>
+      <if test="record.courseindex != null">
+        courseIndex = #{record.courseindex,jdbcType=INTEGER},
+      </if>
       <if test="record.createtime != null">
         createtime = #{record.createtime,jdbcType=TIMESTAMP},
       </if>
@@ -202,6 +229,12 @@
       <if test="record.teacher != null">
         teacher = #{record.teacher,jdbcType=VARCHAR},
       </if>
+      <if test="record.qiandaotype != null">
+        qiandaotype = #{record.qiandaotype,jdbcType=INTEGER},
+      </if>
+      <if test="record.kechenglock != null">
+        kechenglock = #{record.kechenglock,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,12 +245,15 @@
     set id = #{record.id,jdbcType=INTEGER},
       banjinum = #{record.banjinum,jdbcType=VARCHAR},
       codenum = #{record.codenum,jdbcType=VARCHAR},
+      courseIndex = #{record.courseindex,jdbcType=INTEGER},
       createtime = #{record.createtime,jdbcType=TIMESTAMP},
       iskuangke = #{record.iskuangke,jdbcType=INTEGER},
       kechengname = #{record.kechengname,jdbcType=VARCHAR},
       kuangkenum = #{record.kuangkenum,jdbcType=INTEGER},
       riqi = #{record.riqi,jdbcType=VARCHAR},
-      teacher = #{record.teacher,jdbcType=VARCHAR}
+      teacher = #{record.teacher,jdbcType=VARCHAR},
+      qiandaotype = #{record.qiandaotype,jdbcType=INTEGER},
+      kechenglock = #{record.kechenglock,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -230,6 +266,9 @@
       </if>
       <if test="codenum != null">
         codenum = #{codenum,jdbcType=VARCHAR},
+      </if>
+      <if test="courseindex != null">
+        courseIndex = #{courseindex,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
         createtime = #{createtime,jdbcType=TIMESTAMP},
@@ -249,6 +288,12 @@
       <if test="teacher != null">
         teacher = #{teacher,jdbcType=VARCHAR},
       </if>
+      <if test="qiandaotype != null">
+        qiandaotype = #{qiandaotype,jdbcType=INTEGER},
+      </if>
+      <if test="kechenglock != null">
+        kechenglock = #{kechenglock,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -256,12 +301,15 @@
     update t_kaoqinlog
     set banjinum = #{banjinum,jdbcType=VARCHAR},
       codenum = #{codenum,jdbcType=VARCHAR},
+      courseIndex = #{courseindex,jdbcType=INTEGER},
       createtime = #{createtime,jdbcType=TIMESTAMP},
       iskuangke = #{iskuangke,jdbcType=INTEGER},
       kechengname = #{kechengname,jdbcType=VARCHAR},
       kuangkenum = #{kuangkenum,jdbcType=INTEGER},
       riqi = #{riqi,jdbcType=VARCHAR},
-      teacher = #{teacher,jdbcType=VARCHAR}
+      teacher = #{teacher,jdbcType=VARCHAR},
+      qiandaotype = #{qiandaotype,jdbcType=INTEGER},
+      kechenglock = #{kechenglock,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

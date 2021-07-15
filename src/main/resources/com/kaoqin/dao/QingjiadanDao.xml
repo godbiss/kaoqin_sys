@@ -8,13 +8,95 @@
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="qjtime1" jdbcType="VARCHAR" property="qjtime1" />
     <result column="qjtime2" jdbcType="VARCHAR" property="qjtime2" />
+    <result column="qingjiacontent" jdbcType="VARCHAR" property="qingjiacontent" />
     <result column="shenhe" jdbcType="VARCHAR" property="shenhe" />
     <result column="shenhecontent" jdbcType="VARCHAR" property="shenhecontent" />
     <result column="username" jdbcType="VARCHAR" property="username" />
   </resultMap>
-  <sql id="Base_Column_List">
-    id, banjinum, codenum, createtime, qjtime1, qjtime2, shenhe, shenhecontent, username
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
   </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, banjinum, codenum, createtime, qjtime1, qjtime2, qingjiacontent, shenhe, shenhecontent, 
+    username
+  </sql>
+  <select id="selectByExample" parameterType="com.kaoqin.pojo.QingjiadanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_qingjiadan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -25,13 +107,21 @@
     delete from t_qingjiadan
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByExample" parameterType="com.kaoqin.pojo.QingjiadanExample">
+    delete from t_qingjiadan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kaoqin.pojo.Qingjiadan" useGeneratedKeys="true">
     insert into t_qingjiadan (banjinum, codenum, createtime, 
-      qjtime1, qjtime2, shenhe, 
-      shenhecontent, username)
+      qjtime1, qjtime2, qingjiacontent, 
+      shenhe, shenhecontent, username
+      )
     values (#{banjinum,jdbcType=VARCHAR}, #{codenum,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{qjtime1,jdbcType=VARCHAR}, #{qjtime2,jdbcType=VARCHAR}, #{shenhe,jdbcType=VARCHAR}, 
-      #{shenhecontent,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR})
+      #{qjtime1,jdbcType=VARCHAR}, #{qjtime2,jdbcType=VARCHAR}, #{qingjiacontent,jdbcType=VARCHAR}, 
+      #{shenhe,jdbcType=VARCHAR}, #{shenhecontent,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.kaoqin.pojo.Qingjiadan" useGeneratedKeys="true">
     insert into t_qingjiadan
@@ -50,6 +140,9 @@
       </if>
       <if test="qjtime2 != null">
         qjtime2,
+      </if>
+      <if test="qingjiacontent != null">
+        qingjiacontent,
       </if>
       <if test="shenhe != null">
         shenhe,
@@ -77,6 +170,9 @@
       <if test="qjtime2 != null">
         #{qjtime2,jdbcType=VARCHAR},
       </if>
+      <if test="qingjiacontent != null">
+        #{qingjiacontent,jdbcType=VARCHAR},
+      </if>
       <if test="shenhe != null">
         #{shenhe,jdbcType=VARCHAR},
       </if>
@@ -88,6 +184,66 @@
       </if>
     </trim>
   </insert>
+  <select id="countByExample" parameterType="com.kaoqin.pojo.QingjiadanExample" resultType="java.lang.Long">
+    select count(*) from t_qingjiadan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_qingjiadan
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.banjinum != null">
+        banjinum = #{record.banjinum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.codenum != null">
+        codenum = #{record.codenum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.qjtime1 != null">
+        qjtime1 = #{record.qjtime1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qjtime2 != null">
+        qjtime2 = #{record.qjtime2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qingjiacontent != null">
+        qingjiacontent = #{record.qingjiacontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shenhe != null">
+        shenhe = #{record.shenhe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shenhecontent != null">
+        shenhecontent = #{record.shenhecontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_qingjiadan
+    set id = #{record.id,jdbcType=INTEGER},
+      banjinum = #{record.banjinum,jdbcType=VARCHAR},
+      codenum = #{record.codenum,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      qjtime1 = #{record.qjtime1,jdbcType=VARCHAR},
+      qjtime2 = #{record.qjtime2,jdbcType=VARCHAR},
+      qingjiacontent = #{record.qingjiacontent,jdbcType=VARCHAR},
+      shenhe = #{record.shenhe,jdbcType=VARCHAR},
+      shenhecontent = #{record.shenhecontent,jdbcType=VARCHAR},
+      username = #{record.username,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.kaoqin.pojo.Qingjiadan">
     update t_qingjiadan
     <set>
@@ -105,6 +261,9 @@
       </if>
       <if test="qjtime2 != null">
         qjtime2 = #{qjtime2,jdbcType=VARCHAR},
+      </if>
+      <if test="qingjiacontent != null">
+        qingjiacontent = #{qingjiacontent,jdbcType=VARCHAR},
       </if>
       <if test="shenhe != null">
         shenhe = #{shenhe,jdbcType=VARCHAR},
@@ -125,6 +284,7 @@
       createtime = #{createtime,jdbcType=TIMESTAMP},
       qjtime1 = #{qjtime1,jdbcType=VARCHAR},
       qjtime2 = #{qjtime2,jdbcType=VARCHAR},
+      qingjiacontent = #{qingjiacontent,jdbcType=VARCHAR},
       shenhe = #{shenhe,jdbcType=VARCHAR},
       shenhecontent = #{shenhecontent,jdbcType=VARCHAR},
       username = #{username,jdbcType=VARCHAR}

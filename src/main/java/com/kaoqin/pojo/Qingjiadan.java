@@ -22,6 +22,8 @@ public class Qingjiadan implements Serializable {
 
     private String qjtime2;
 
+    private String qingjiacontent;
+
     private String shenhe;
 
     private String shenhecontent;
@@ -48,6 +50,7 @@ public class Qingjiadan implements Serializable {
             && (this.getCreatetime() == null ? other.getCreatetime() == null : this.getCreatetime().equals(other.getCreatetime()))
             && (this.getQjtime1() == null ? other.getQjtime1() == null : this.getQjtime1().equals(other.getQjtime1()))
             && (this.getQjtime2() == null ? other.getQjtime2() == null : this.getQjtime2().equals(other.getQjtime2()))
+            && (this.getQingjiacontent() == null ? other.getQingjiacontent() == null : this.getQingjiacontent().equals(other.getQingjiacontent()))
             && (this.getShenhe() == null ? other.getShenhe() == null : this.getShenhe().equals(other.getShenhe()))
             && (this.getShenhecontent() == null ? other.getShenhecontent() == null : this.getShenhecontent().equals(other.getShenhecontent()))
             && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()));
@@ -63,6 +66,7 @@ public class Qingjiadan implements Serializable {
         result = prime * result + ((getCreatetime() == null) ? 0 : getCreatetime().hashCode());
         result = prime * result + ((getQjtime1() == null) ? 0 : getQjtime1().hashCode());
         result = prime * result + ((getQjtime2() == null) ? 0 : getQjtime2().hashCode());
+        result = prime * result + ((getQingjiacontent() == null) ? 0 : getQingjiacontent().hashCode());
         result = prime * result + ((getShenhe() == null) ? 0 : getShenhe().hashCode());
         result = prime * result + ((getShenhecontent() == null) ? 0 : getShenhecontent().hashCode());
         result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
@@ -81,6 +85,7 @@ public class Qingjiadan implements Serializable {
         sb.append(", createtime=").append(createtime);
         sb.append(", qjtime1=").append(qjtime1);
         sb.append(", qjtime2=").append(qjtime2);
+        sb.append(", qingjiacontent=").append(qingjiacontent);
         sb.append(", shenhe=").append(shenhe);
         sb.append(", shenhecontent=").append(shenhecontent);
         sb.append(", username=").append(username);

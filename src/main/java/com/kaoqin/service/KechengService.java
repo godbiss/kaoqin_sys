@@ -16,6 +16,21 @@ public class KechengService {
     @Autowired
     private KechengDao kechengDao;
 
+    public Integer updateKechengById(Kecheng kecheng){
+        return kechengDao.updateByPrimaryKey(kecheng);
+    }
+
+    public Integer addKecheng(Kecheng kecheng){
+        return kechengDao.insert(kecheng);
+    }
+
+    public Integer deleteKecheng(Integer id){
+        return kechengDao.deleteByPrimaryKey(id);
+    }
+
+    public Kecheng getKechengById(Integer id){
+        return kechengDao.selectByPrimaryKey(id);
+    }
 
     public List<Kecheng> getKechengByBanjinum(String banjinum){
         KechengExample kechengExample = new KechengExample();
