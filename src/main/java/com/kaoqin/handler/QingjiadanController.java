@@ -1,24 +1,36 @@
 package com.kaoqin.handler;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.kaoqin.pojo.Banji;
+import com.kaoqin.pojo.Course;
 import com.kaoqin.pojo.Qingjiadan;
+import com.kaoqin.service.BanjiService;
+import com.kaoqin.service.CourseService;
 import com.kaoqin.service.QingjiadanService;
+import com.kaoqin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @Controller
 public class QingjiadanController {
 
     @Autowired
     private QingjiadanService qingjiadanService;
+
+    @Autowired
+    private BanjiService banjiService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/qingjiadan/std/add", method = RequestMethod.PUT)
     @ResponseBody
@@ -28,6 +40,7 @@ public class QingjiadanController {
         String qjtime1 = (String) req.get("qjtime1");
         String qjtime2 = (String) req.get("qjtime2");
         String qingjiacontent = (String) req.get("qingjiacontent");
+        String username = (String) req.get("username");
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -59,7 +72,7 @@ public class QingjiadanController {
 
         JSONObject res = new JSONObject();
         if(qingjiadanService.addQingjiadan(banjinum, codenum, simpleDateFormat.format(gc.getTime()),
-                simpleDateFormat.format(gc2.getTime()), qingjiacontent) != null){
+                simpleDateFormat.format(gc2.getTime()), qingjiacontent, username) != null){
             res.put("success", true);
         }else {
             res.put("success", false);
@@ -72,12 +85,46 @@ public class QingjiadanController {
     @ResponseBody
     public JSONObject updateQingjiadanForTeacher(@RequestBody Qingjiadan req){
         JSONObject res = new JSONObject();
-        if(qingjiadanService.updateQingjiadanTeacher(req.getId(), req.getShenhe(), req.getShenhecontent(), req.getUsername()) > 0){
+        if(qingjiadanService.updateQingjiadanTeacher(req.getId(), req.getShenhe(), req.getShenhecontent()) != null){
             res.put("success", true);
         }else {
             res.put("success", false);
         }
 
         return res;
+    }
+
+    @RequestMapping(value = "/qingjiadan/teacher/list/{username}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<JSONObject> listQingjiadanByTeacher(@PathVariable String username) throws UnsupportedEncodingException {
+        String teacher = new String(username.getBytes("iso8859-1"), "utf-8");
+
+        List<JSONObject> res = new ArrayList<>();
+
+        List<Qingjiadan> qingjiadans = qingjiadanService.listQingjiadanByUsername(teacher);
+        for (Qingjiadan qingjiadan :
+                qingjiadans) {
+            JSONObject json = new JSONObject();
+            json.put("banjiname", banjiService.getBanjiBybanjinum(qingjiadan.getBanjinum()).getBanjiname());
+            json.put("banjinum", qingjiadan.getBanjinum());
+            json.put("id", qingjiadan.getId());
+            json.put("codenum", qingjiadan.getCodenum());
+            json.put("stdname", userService.getUserByCodenum(qingjiadan.getCodenum()).getUsername());
+            json.put("qjtime1", qingjiadan.getQjtime1());
+            json.put("qjtime2", qingjiadan.getQjtime2());
+            json.put("qingjiacontent", qingjiadan.getQingjiacontent());
+            json.put("shenhe", qingjiadan.getShenhe());
+            json.put("shenhecontent", qingjiadan.getShenhecontent());
+
+            res.add(json);
+        }
+
+        return res;
+    }
+
+    @RequestMapping(value = "/qingjiadan/student/list/{codenum}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Qingjiadan> listQingjiadanForStudent(@PathVariable String codenum){
+        return qingjiadanService.listQingjiadanByCodenum(codenum);
     }
 }

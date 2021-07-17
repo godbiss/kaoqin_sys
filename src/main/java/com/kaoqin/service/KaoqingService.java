@@ -190,4 +190,12 @@ public class KaoqingService {
 
         return kaoqinlogDao.updateByExampleSelective(kaoqinlog, kaoqinlogExample);
     }
+
+    public List<Kaoqinlog> getKaoqinlogByCodenumAndKechengname(String codenum, String kechengname){
+        KaoqinlogExample kaoqinlogExample = new KaoqinlogExample();
+        KaoqinlogExample.Criteria criteria = kaoqinlogExample.createCriteria();
+        criteria.andCodenumEqualTo(codenum).andKechengnameEqualTo(kechengname);
+
+        return kaoqinlogDao.selectByExample(kaoqinlogExample);
+    }
 }

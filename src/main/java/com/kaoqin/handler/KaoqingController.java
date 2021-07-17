@@ -1,18 +1,22 @@
 package com.kaoqin.handler;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kaoqin.pojo.Kaoqinlog;
 import com.kaoqin.pojo.User;
 import com.kaoqin.service.KaoqingService;
 import com.kaoqin.service.UserService;
-import com.kaoqin.socket.WebSocketServlet;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Controller
@@ -33,6 +37,10 @@ public class KaoqingController {
         String riqitemp = "";
         if(riqi.split("-")[1].length() == 1){
             riqitemp = riqi.split("-")[0] + "-0" + riqi.split("-")[1] + "-" + riqi.split("-")[2];
+        }else if(riqi.split("-")[2].length() == 1){
+            riqitemp = riqi.split("-")[0] + "-" + riqi.split("-")[1] + "-0" + riqi.split("-")[2];
+        }else {
+            riqitemp = riqi;
         }
 
         kechengname = new String(kechengname.getBytes("iso8859-1"),"utf-8");
@@ -72,6 +80,10 @@ public class KaoqingController {
         String riqitemp = "";
         if(riqi.split("-")[1].length() == 1){
             riqitemp = riqi.split("-")[0] + "-0" + riqi.split("-")[1] + "-" + riqi.split("-")[2];
+        }else if(riqi.split("-")[2].length() == 1){
+            riqitemp = riqi.split("-")[0] + "-" + riqi.split("-")[1] + "-0" + riqi.split("-")[2];
+        }else {
+            riqitemp = riqi;
         }
 
         JSONObject resp = new JSONObject();
@@ -125,15 +137,18 @@ public class KaoqingController {
         String kechengname = (String) req.get("kechengname");
         Integer isKuangke = (Integer) req.get("isKuangke");
         Integer kuangkenum = (Integer) req.get("kuangkenum");
+        Integer qiandaotype = (Integer) req.get("qiandaotype");
 
         Kaoqinlog kaoqinlogById = kaoqingService.getKaoqinlogById(id);
-        if(kaoqinlogById.getIskuangke() != isKuangke){
-            if(isKuangke == 1 && kaoqinlogById.getIskuangke() == 2){
-                kuangkenum = kuangkenum + 1;
-            }else if(isKuangke == 1 && kaoqinlogById.getIskuangke() == 0){
-                kuangkenum = kuangkenum + 1;
-            }else if(isKuangke == 0 && kaoqinlogById.getIskuangke() == 1){
-                kuangkenum = kuangkenum - 1;
+        if(qiandaotype == kaoqinlogById.getQiandaotype()){
+            if(kaoqinlogById.getIskuangke() != isKuangke){
+                if(isKuangke == 1 && kaoqinlogById.getIskuangke() == 2){
+                    kuangkenum = kuangkenum + 1;
+                }else if(isKuangke == 1 && kaoqinlogById.getIskuangke() == 0){
+                    kuangkenum = kuangkenum + 1;
+                }else if(isKuangke == 0 && kaoqinlogById.getIskuangke() == 1){
+                    kuangkenum = kuangkenum - 1;
+                }
             }
         }
 
@@ -161,12 +176,16 @@ public class KaoqingController {
         String riqitemp = "";
         if (riqi.split("-")[1].length() == 1) {
             riqitemp = riqi.split("-")[0] + "-0" + riqi.split("-")[1] + "-" + riqi.split("-")[2];
+        }else if(riqi.split("-")[2].length() == 1){
+            riqitemp = riqi.split("-")[0] + "-" + riqi.split("-")[1] + "-0" + riqi.split("-")[2];
+        }else {
+            riqitemp = riqi;
         }
 
         JSONObject res = new JSONObject();
 
-        Integer integer = kaoqingService.updateKaoqinlogQiandaotypeByBanjinumAndRiqi(banjinum, kechengname, riqi, qiandaotype);
-        if (integer > 0) {
+        Integer integer = kaoqingService.updateKaoqinlogQiandaotypeByBanjinumAndRiqi(banjinum, kechengname, riqitemp, qiandaotype);
+        if (integer != 0) {
             res.put("success", true);
         } else {
             res.put("success", false);
@@ -182,4 +201,30 @@ public class KaoqingController {
         return  kaoqingService.getKaoqinlogByCodenum(codenum);
     }
 
+
+    @RequestMapping(value = "/kaoqinlog/student/baogao/{codenum}/{kechengname}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Kaoqinlog> getBaogaoByWeek(@PathVariable("codenum") String codenum,
+                                           @PathVariable("kechengname") String kechengnamePath) throws UnsupportedEncodingException, ParseException {
+        String kechengname = new String(kechengnamePath.getBytes("iso8859-1"), "utf-8");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        List<Kaoqinlog> res = new ArrayList<>();
+
+        GregorianCalendar calendar = new GregorianCalendar();
+        GregorianCalendar calendar2 = new GregorianCalendar();
+        calendar.setTime(new Date());
+
+        List<Kaoqinlog> kaoqinlogs = kaoqingService.getKaoqinlogByCodenumAndKechengname(codenum, kechengname);
+        for (Kaoqinlog kaoqinlog :
+                kaoqinlogs) {
+            calendar2.setTime(simpleDateFormat.parse(kaoqinlog.getRiqi()));
+            if(calendar.getWeeksInWeekYear() == calendar2.getWeeksInWeekYear()){
+                res.add(kaoqinlog);
+            }
+
+        }
+
+        return res;
+    }
 }
