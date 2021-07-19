@@ -54,4 +54,12 @@ public class QingjiadanService {
 
         return qingjiadanDao.selectByExample(qingjiadanExample);
     }
+
+    public Integer deleteQingjiadanByBanjinum(String banjinum){
+        QingjiadanExample qingjiadanExample = new QingjiadanExample();
+        QingjiadanExample.Criteria criteria = qingjiadanExample.createCriteria();
+        criteria.andBanjinumEqualTo(banjinum);
+
+        return qingjiadanDao.deleteByExample(qingjiadanExample);
+    }
 }

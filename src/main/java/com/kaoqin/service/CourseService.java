@@ -15,6 +15,11 @@ public class CourseService {
     @Autowired
     private CourseDao courseDao;
 
+    @Autowired
+    private KaoqingService kaoqingService;
+
+    @Autowired
+    private KechengService kechengService;
 
     public List<Course> getCoursebyTeacher(String teacher){
         CourseExample courseExample = new CourseExample();
@@ -42,4 +47,18 @@ public class CourseService {
         Course course = courseDao.selectByExample(courseExample).get(0);
         return course;
     }
+
+    public Integer addCourse(Course course){
+        return courseDao.insert(course);
+    }
+
+    public Integer deleteCourseById(Integer id){
+        Course course = courseDao.selectByPrimaryKey(id);
+
+        kaoqingService.deleteKaoqinlogByKechengname(course.getCoursename());
+        kechengService.deleteKechengByKechengnameAll(course.getCoursename());
+
+        return courseDao.deleteByPrimaryKey(id);
+    }
+
 }

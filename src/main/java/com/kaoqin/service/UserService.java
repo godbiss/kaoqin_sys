@@ -64,4 +64,15 @@ public class UserService {
     public Integer updateUser(User user){
         return userDao.updateByPrimaryKey(user);
     }
+
+    public List<User> listUser(){
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andIdIsNotNull();
+        return userDao.selectByExample(userExample);
+    }
+
+    public Integer deleteUserById(Integer id){
+        return userDao.deleteByPrimaryKey(id);
+    }
 }

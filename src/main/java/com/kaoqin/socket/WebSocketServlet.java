@@ -43,6 +43,7 @@ public class WebSocketServlet {
         userWebSocketServletMap.put(this.user, this);
         webSocketSet.add(this);
 
+        System.out.println("id: " + this.userid  + "username: " + this.username + "已经加入！");
     }
 
     /**
@@ -64,13 +65,14 @@ public class WebSocketServlet {
     public void onMessage(String message) throws IOException {
         // { msg: "", from:"", to:""}
         JSONObject jsonObject = JSONObject.parseObject(message);
+        System.out.println(message);
         String msg = (String) jsonObject.get("msg");
-        if(jsonObject.get("to") == null && jsonObject.get("to") == ""){
-            broadcast(message);
+        if(jsonObject.get("to") == null || jsonObject.get("to") == ""){
+            broadcast(msg);
         }else {
             String[] ids = jsonObject.get("to").toString().split(",");
             for (int i = 0; i < ids.length; i++) {
-                sendMessageTo(message, ids[i]);
+                sendMessageTo(message, Integer.valueOf(ids[i]));
             }
         }
     }
@@ -91,7 +93,7 @@ public class WebSocketServlet {
         }
     }
 
-    public void sendMessageTo(String message, String To) throws IOException {
+    public void sendMessageTo(String message, Integer To) throws IOException {
         for (WebSocketServlet item : userWebSocketServletMap.values()) {
             if (item.userid.equals(To) )
                 item.session.getBasicRemote().sendText(message);

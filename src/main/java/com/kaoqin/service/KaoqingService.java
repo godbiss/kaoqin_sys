@@ -33,7 +33,7 @@ public class KaoqingService {
 
             List<Kaoqinlog> kaoqinlogs = kaoqinlogDao.selectByExample(kaoqinlogExample);
             if(kaoqinlogs.size() == 0){
-                Integer maxKuangkenum = getMaxKuangkenumByCodenumAndKechengname(user.getCodenum(), kechengname);
+//                Integer maxKuangkenum = getMaxKuangkenumByCodenumAndKechengname(user.getCodenum(), kechengname);
 
                 Kaoqinlog kaoqinlog = new Kaoqinlog();
                 kaoqinlog.setBanjinum(user.getBanjinum());
@@ -197,5 +197,29 @@ public class KaoqingService {
         criteria.andCodenumEqualTo(codenum).andKechengnameEqualTo(kechengname);
 
         return kaoqinlogDao.selectByExample(kaoqinlogExample);
+    }
+
+    public Integer deleteKaoqinlogByBanjinum(String banjinum){
+        KaoqinlogExample kaoqinlogExample = new KaoqinlogExample();
+        KaoqinlogExample.Criteria criteria = kaoqinlogExample.createCriteria();
+        criteria.andBanjinumEqualTo(banjinum);
+
+       return kaoqinlogDao.deleteByExample(kaoqinlogExample);
+    }
+
+    public Integer deleteKaoqinlogByRiqi(String riqi){
+        KaoqinlogExample kaoqinlogExample = new KaoqinlogExample();
+        KaoqinlogExample.Criteria criteria = kaoqinlogExample.createCriteria();
+        criteria.andRiqiEqualTo(riqi);
+
+       return kaoqinlogDao.deleteByExample(kaoqinlogExample);
+    }
+
+    public Integer deleteKaoqinlogByKechengname(String kechengname){
+        KaoqinlogExample kaoqinlogExample = new KaoqinlogExample();
+        KaoqinlogExample.Criteria criteria = kaoqinlogExample.createCriteria();
+        criteria.andKechengnameEqualTo(kechengname);
+
+        return kaoqinlogDao.deleteByExample(kaoqinlogExample);
     }
 }

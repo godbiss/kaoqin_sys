@@ -132,6 +132,44 @@ public class KechengController {
         if(kecheng.getId() != null && !kecheng.getId().equals("")){
             Integer i = kechengService.updateKechengById(kecheng);
             if(i != null){
+                kaoqingService.deleteKaoqinlogByRiqi(kecheng.getShangketime().toString().split(" ")[0]);
+
+                //初始化考勤表
+                if(kecheng.getKechengname1() != null){
+                    kaoqingService.generateKaoqinglogIfNotExist(kecheng.getBanjinum(),
+                            kecheng.getKechengname1(), timeSplit[0],
+                            courseService.getTeacherByCourse(kecheng.getKechengname1()).getTeacher(), 1);
+                }
+                if(kecheng.getKechengname2() != null){
+                    kaoqingService.generateKaoqinglogIfNotExist(kecheng.getBanjinum(),
+                            kecheng.getKechengname2(), timeSplit[0],
+                            courseService.getTeacherByCourse(kecheng.getKechengname2()).getTeacher(), 2);
+                }
+                if(kecheng.getKechengname3() != null){
+                    kaoqingService.generateKaoqinglogIfNotExist(kecheng.getBanjinum(),
+                            kecheng.getKechengname3(), timeSplit[0],
+                            courseService.getTeacherByCourse(kecheng.getKechengname3()).getTeacher(), 3);
+                }
+                if(kecheng.getKechengname4() != null){
+                    kaoqingService.generateKaoqinglogIfNotExist(kecheng.getBanjinum(),
+                            kecheng.getKechengname4(), timeSplit[0],
+                            courseService.getTeacherByCourse(kecheng.getKechengname4()).getTeacher(), 4);
+                }
+                if(kecheng.getKechengname5() != null){
+                    kaoqingService.generateKaoqinglogIfNotExist(kecheng.getBanjinum(),
+                            kecheng.getKechengname5(), timeSplit[0],
+                            courseService.getTeacherByCourse(kecheng.getKechengname5()).getTeacher(), 5);
+                }
+                if(kecheng.getKechengname6() != null){
+                    kaoqingService.generateKaoqinglogIfNotExist(kecheng.getBanjinum(),
+                            kecheng.getKechengname6(), timeSplit[0],
+                            courseService.getTeacherByCourse(kecheng.getKechengname6()).getTeacher(), 6);
+                }
+                if(kecheng.getKechengname7() != null){
+                    kaoqingService.generateKaoqinglogIfNotExist(kecheng.getBanjinum(),
+                            kecheng.getKechengname7(), timeSplit[0],
+                            courseService.getTeacherByCourse(kecheng.getKechengname7()).getTeacher(), 7);
+                }
                 jsonObject.put("success", true);
 
             }else {
